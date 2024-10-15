@@ -8,6 +8,6 @@ db = SQLAlchemy()
 # Import your models
 
 # ---------------------------------------------
-# from .customer import Customer
+from .customer import Customer
 # from .product import Product
 # from .order import Order
