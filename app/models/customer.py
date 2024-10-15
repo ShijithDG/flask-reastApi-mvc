@@ -5,7 +5,7 @@ from app.models import db
 class Customer(db.Model):
     __tablename__ = 'customers'
     
-    customer_id = db.Column(db.String, primary_key=True)  # Using String for bpchar
+    customer_id = db.Column(db.String(20), primary_key=True)  # Set a length for VARCHAR
     company_name = db.Column(db.String(40), nullable=False)
     contact_name = db.Column(db.String(30))
     contact_title = db.Column(db.String(30))
