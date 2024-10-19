@@ -80,6 +80,10 @@ def get_customer(customer_id):
         customer = Customer.query.filter_by(customer_id=customer_id).first()
         print('this is customer',customer)
         print('Company Name:', customer.company_name)
+        
+        if not customer:
+            return jsonify({'error': 'Customer not found'}), 404
+
         customer_data = {
             'customer_id': customer.customer_id,
             'company_name': customer.company_name,
@@ -93,8 +97,6 @@ def get_customer(customer_id):
             'phone': customer.phone,
             'fax': customer.fax
         }
-        if not customer:
-            return jsonify({'error': 'Customer not found'}), 404
 
         return jsonify(customer_data), 200
 

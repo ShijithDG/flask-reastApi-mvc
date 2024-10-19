@@ -2,12 +2,10 @@
 
 from flask_sqlalchemy import SQLAlchemy
 
-# Create a SQLAlchemy instance
+# create a SQLalchemy instance
 db = SQLAlchemy()
 
-# Import your models
-
-# ---------------------------------------------
+# importing models
 from .customer import Customer
 from .products import Products
-# from .order import Order
+from .orders import Orders
