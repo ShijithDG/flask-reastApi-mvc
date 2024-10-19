@@ -9,5 +9,5 @@ db = SQLAlchemy()
 
 # ---------------------------------------------
 from .customer import Customer
-# from .product import Product
+from .products import Products
 # from .order import Order

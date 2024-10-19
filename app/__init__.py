@@ -23,8 +23,10 @@ def create_app():
     # app.register_blueprint(user_controller.user_bp)
     from app.controllers import user_controller  # Add any other controllers here
     from app.controllers import customers_controller
+    from app.controllers import products_controller
     app.register_blueprint(customers_controller.customer_bp)
     app.register_blueprint(user_controller.user_bp)
+    app.register_blueprint(products_controller.products_bp)
 
 
     return app
