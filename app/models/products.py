@@ -17,5 +17,7 @@ class Products(db.Model):
     discontinued = db.Column(db.Boolean, nullable=False)  # Changed to Boolean for clarity
     
     def __repr__(self) -> str:
-        return f'<Product {self.product_name}>'
-        
+        return f'<Products {self.product_name}>'
+    
+    
+    
