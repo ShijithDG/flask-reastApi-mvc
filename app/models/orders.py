@@ -6,7 +6,7 @@ class Orders(db.Model):
     __table__name = 'Orders'
     
     order_id = db.Column(db.SmallInteger, primary_key=True, autoincrement=True)
-    customer_id = db.Column(db.String(20))  
+    customer_id = db.Column(db.String(20), db.ForeignKey('customers.customer_id'))  # foreign key 
     employee_id = db.Column(db.SmallInteger)
     order_date = db.Column(db.Date)
     required_date = db.Column(db.Date)
