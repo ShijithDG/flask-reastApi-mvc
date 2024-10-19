@@ -70,4 +70,29 @@ def update_product(product_id):
         db.session.rollback()
         print(f'error : {e}')
         return jsonify({"error" :"server error "}), 500
+    
+@products_bp.route('/get-product-detail/<string:product_id>', methods=['GET'])
+def get_product_detail(product_id):
+    
+    print('inisder get product', product_id)
+    try:
+        product = Products.query.filter_by(product_id = product_id).first()
+        if not product:
+            return jsonify({"message" : "item is not found"})
+        product_detail = {
+            "product_id" : product.product_id,
+            "product_name" : product.product_name,
+            "supplier_id" : product.supplier_id,
+            "category_id" : product.category_id,
+            "quantity_per_unit" : product.quantity_per_unit,
+            "unit_price" : product.unit_price,
+            "units_in_stock" : product.units_in_stock,
+            "units_on_order" : product.units_on_order,
+            "reorder_level" : product.reorder_level,
+            "discontinued" : product.discontinued
+        }
+        return jsonify(product_detail)
+    except Exception as e :
+        print(f"server error {e}")
+        return jsonify({'message': 'server error'}), 500
         
