@@ -3,6 +3,7 @@
 from flask import Blueprint, request, jsonify
 from app.models import db
 from app.models.customer import Customer
+from app.models.orders import Orders
 # from app.models.customer import CustomerSchema
 
 customer_bp = Blueprint('customer', __name__)
@@ -103,5 +104,46 @@ def get_customer(customer_id):
     except Exception as e:
         return jsonify({'error': str(e)}), 500  
     
+    
+@customer_bp.route('/customer-order-detail/<string:customer_id>', methods=['GET'])
+def order_detail(customer_id):
+    
+    try:
+        customer = (
+            db.session.query(Orders, Customer)
+            .join(Customer, Customer.customer_id == Orders.customer_id)
+            .filter(Customer.customer_id == customer_id)
+            .all()  # Execute the query
+        )
+        if customer is None:
+            return jsonify({'message': 'Customer not found'}), 404
+        
+        response = []
+        for order, customer in customer:  # Each result is a tuple (Order, Customer)
+            response.append({
+                'order_id': order.order_id,
+                'customer_id': customer.customer_id,
+                'company_name': customer.company_name,
+                'order_date': order.order_date,
+                'required_date': order.required_date,
+                'shipped_date': order.shipped_date,
+                'freight': order.freight,
+                'ship_name': order.ship_name,
+                'ship_address': order.ship_address,
+                'ship_city': order.ship_city,
+                'ship_region': order.ship_region,
+                'ship_postal_code': order.ship_postal_code,
+                'ship_country': order.ship_country,
+            })
+
+        return jsonify(response), 200
+        
+
+    except Exception as e:
+        
+        print(f" error : {e}")
+        return jsonify({'message': "server error"}), 500
 
     
+
+        orders = db.session.query(Orders).filter_by(customer_id=customer_id).all()

@@ -20,3 +20,5 @@ class Customer(db.Model):
     def __repr__(self):
         return f'<Customer {self.company_name}>'
     
+
+    
