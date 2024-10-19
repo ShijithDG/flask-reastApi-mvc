@@ -50,7 +50,7 @@ def update_order(order_id):
         
         data = request.get_json()
         
-        orders.order_id = data.get('order_id', orders.order_id),
+        # orders.order_id = data.get('order_id', orders.order_id),
         orders.customer_id = data.get('customer_id', orders.customer_id),
         orders.employee_id = data.get('employee_id', orders.employee_id),
         orders.order_date = data.get('order_date', orders.order_date),
@@ -73,3 +73,38 @@ def update_order(order_id):
         db.session.rollback()
         print(f"error : {e}")
         return jsonify({'message': 'server error'}), 500
+    
+    
+@orders_bp.route('/get-order-detail/<string:order_id>', methods=['GET'])
+def get_order_detail(order_id):
+    
+    try:
+        order = Orders.query.filter_by(order_id = order_id).first()
+        print(order.customer_id,'this is customer id')
+        if not order:
+            
+            return jsonify({'message' : 'order is not found'})
+        
+        order_detail = {
+           "order_id" : order.order_id,
+           "customer_id" : order.customer_id,
+           "employee_id" : order.employee_id,
+           "order_date" : order.order_date,
+           "required_date" : order.required_date,
+           "shipped_date" : order.shipped_date,
+           "ship_via" : order.ship_via,
+           "freight" : order.freight,
+           "ship_name" : order.ship_name,
+           "ship_address" : order.ship_address,
+           "ship_city" : order.ship_city,
+           "ship_region" : order.ship_region,
+           "ship_postal_code" : order.ship_postal_code,
+           "ship_country" : order.ship_country,
+        }
+        
+        return jsonify(order_detail)
+    
+    except Exception as e:
+        
+        print(f'error : {e}')
+        return jsonify({'message' : 'server error'}), 500
